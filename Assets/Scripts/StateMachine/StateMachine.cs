@@ -1,18 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.AI;
 
-public class StateMachine : MonoBehaviour
+public abstract class StateMachine
 {
-    // Start is called before the first frame update
-    void Start()
+    protected IState currentState;
+
+    public void ChangeState(IState newState)
     {
-        
+        currentState?.Exit();
+
+        currentState = newState;
+
+        currentState?.Enter();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void HandleInput()
     {
-        
+        currentState?.HandleInput();
+    }
+
+    public void Update()
+    {
+        currentState?.Update();
+    }
+
+    public void PhysicsUpdate()
+    {
+        currentState?.PhysicsUpdate();
     }
 }
