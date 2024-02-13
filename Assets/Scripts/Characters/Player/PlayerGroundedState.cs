@@ -30,7 +30,22 @@ public class PlayerGroundedState : PlayerBaseState
     {
         base.PhysicsUpdate();
     }
+    protected override void OnMovementCanceled(InputAction.CallbackContext context)
+    {
+        if (stateMachine.MovementInput == Vector2.zero)
+        {
+            return;
+        }
 
-   
+        stateMachine.ChangeState(stateMachine.IdleState);
+
+        base.OnMovementCanceled(context);
+    }
+
+    protected virtual void OnMove()
+    {
+        stateMachine.ChangeState(stateMachine.WalkState);
+    }
+
 
 }
