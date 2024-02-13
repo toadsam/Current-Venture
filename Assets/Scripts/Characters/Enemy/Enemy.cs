@@ -1,0 +1,79 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
+
+public class Enemy : MonoBehaviour
+{
+    public enum EnemyState { IDLE, TRACE, ATTACK, DIE };
+    public EnemyState enemyState = EnemyState.IDLE;
+
+    public int maxHP;
+    public int curHP;
+    public float traceDist;
+    public float attackDist;
+    public float dist;
+
+    private Rigidbody rigid;
+    private BoxCollider boxCollider;
+    private Animator anim;
+    private Transform enemyTr;
+    private Transform playerTr;
+    private NavMeshAgent nvAgent;
+   
+    void Start()
+    {
+        rigid = GetComponent<Rigidbody>();
+        boxCollider = GetComponent<BoxCollider>();
+        anim = GetComponent<Animator>();
+
+        enemyTr = this.gameObject.GetComponent<Transform>();
+        playerTr = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        nvAgent = GetComponent<NavMeshAgent>();
+
+        enemyState = EnemyState.IDLE;
+        StartCoroutine(CheckEnemyState());
+        StartCoroutine(EnemyAction());
+    }
+
+    IEnumerator CheckEnemyState()
+    {
+        while (curHP > 0)
+        {
+            yield return new WaitForSeconds(0.2f);
+
+            dist = Vector3.Distance(playerTr.position, enemyTr.position);
+
+            if(dist <= attackDist)  enemyState = EnemyState.ATTACK;
+            else if(dist <= traceDist)  enemyState = EnemyState.TRACE;
+            else    enemyState = EnemyState.IDLE;
+        }
+    }
+
+    IEnumerator EnemyAction()
+    {
+        while (curHP > 0)
+        {
+            switch (enemyState)
+            {
+                case EnemyState.IDLE:
+                    nvAgent.isStopped = true;
+                    anim.SetBool("isTrace", false);
+                    break;
+
+                case EnemyState.TRACE:
+                    nvAgent.SetDestination(playerTr.position);
+                    nvAgent.isStopped = false;
+                    anim.SetBool("isAttack", false);
+                    anim.SetBool("isTrace", true);     
+                    break;
+
+                case EnemyState.ATTACK:
+                    nvAgent.isStopped = true; 
+                    anim.SetBool("isAttack", true);             
+                    break;
+            }
+            yield return null;     
+        }
+    }
+}
