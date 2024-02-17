@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Monster : MonoBehaviour
 {
-    public enum EnemyState { IDLE, TRACE, WALK, ATTACK, DIE };
-    public EnemyState enemyState = EnemyState.IDLE;
+    public enum MonsterState { IDLE, TRACE, WALK, ATTACK, DIE };
+    public MonsterState monsterState = MonsterState.IDLE;
 
     public int maxHP;
     public int curHP;
@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody rigid;
     private BoxCollider boxCollider;
     private Animator anim;
-    private Transform enemyTr;
+    private Transform monsterTr;
     private Transform playerTr;
     private NavMeshAgent nvAgent;
    
@@ -29,51 +29,51 @@ public class Enemy : MonoBehaviour
         boxCollider = GetComponent<BoxCollider>();
         anim = GetComponent<Animator>();
 
-        enemyTr = this.gameObject.GetComponent<Transform>();
+        monsterTr = this.gameObject.GetComponent<Transform>();
         playerTr = GameObject.FindWithTag("Player").GetComponent<Transform>();
         nvAgent = GetComponent<NavMeshAgent>();
 
-        enemyState = EnemyState.IDLE;
-        StartCoroutine(CheckEnemyState());
-        StartCoroutine(EnemyAction());
+        monsterState = MonsterState.IDLE;
+        StartCoroutine(CheckMonsterState());
+        StartCoroutine(MonsterAction());
     }
 
-    IEnumerator CheckEnemyState()
+    IEnumerator CheckMonsterState()
     {
         while (curHP > 0)
         {
             yield return new WaitForSeconds(0.2f);
 
-            float dist = Vector3.Distance(playerTr.position, enemyTr.position);
+            float dist = Vector3.Distance(playerTr.position, monsterTr.position);
 
-            if(dist <= attackDist)  enemyState = EnemyState.ATTACK;
-            else if(dist <= traceDist)  enemyState = EnemyState.TRACE;
-            else    enemyState = EnemyState.IDLE;
+            if(dist <= attackDist)  monsterState = MonsterState.ATTACK;
+            else if(dist <= traceDist)  monsterState = MonsterState.TRACE;
+            else    monsterState = MonsterState.IDLE;
         }
     }
 
-    IEnumerator EnemyAction()
+    IEnumerator MonsterAction()
     {
         while (curHP > 0)
         {
-            switch (enemyState)
+            switch (monsterState)
             {
-                case EnemyState.IDLE:
+                case MonsterState.IDLE:
                     nvAgent.isStopped = true;
                     anim.SetBool("isTrace", false);
                     break;
-                case EnemyState.TRACE:
+                case MonsterState.TRACE:
                     nvAgent.SetDestination(playerTr.position);
                     nvAgent.isStopped = false;
                     //anim.SetBool("isWalk", false);
                     anim.SetBool("isAttack", false);
                     anim.SetBool("isTrace", true);     
                     break;
-                case EnemyState.ATTACK:
+                case MonsterState.ATTACK:
                     nvAgent.isStopped = true; 
                     anim.SetBool("isAttack", true);
                     float e_RotSpeed = 6.0f; //초당 회전 속도
-                    Vector3 a_CacDir = playerTr.position - enemyTr.position;
+                    Vector3 a_CacDir = playerTr.position - monsterTr.position;
                     a_CacDir.y = 0.0f;
                     //a_CacDir의 벡터 길이가 0.0f보다 크면 해당 벡터를 바라보도록 함
                     if(0.0f < a_CacDir.magnitude)
