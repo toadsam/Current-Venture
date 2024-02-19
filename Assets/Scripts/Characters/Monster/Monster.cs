@@ -38,6 +38,12 @@ public class Monster : MonoBehaviour
         StartCoroutine(MonsterAction());
     }
 
+    void OnEnable()
+    {
+        nvAgent = GetComponent<NavMeshAgent>();
+        curHP = maxHP;
+    }
+
     IEnumerator CheckMonsterState()
     {
         while (curHP > 0)
@@ -85,6 +91,9 @@ public class Monster : MonoBehaviour
                     break;
             }
             yield return null;     
+        }
+        if(curHP <= 0){
+            MonsterSpawner.instance.ReturnQueue(this);
         }
     }
 }

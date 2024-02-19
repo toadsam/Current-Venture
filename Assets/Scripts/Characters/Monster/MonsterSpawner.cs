@@ -18,46 +18,65 @@ public class MonsterSpawner : MonoBehaviour
 
         rangeCollider = GetComponent<BoxCollider>();
 
-        StartCoroutine(SpawnTime());
-    }
-    private void CreateMonster(int _count)
-    {
-        for(int i = 0; i < _count; i++)
+        for(int i = 0; i < 10; i++)
         {
-            Monster monsterSpawn = Instantiate(monsterPrefab, RandomPosition(),transform.rotation, transform);
+            Monster monsterSpawn = Instantiate(monsterPrefab, RandomPosition(), Quaternion.identity, transform);
             
             monsterSpawnQueue.Enqueue(monsterSpawn);
         }
+
+        //StartCoroutine(SpawnTime());
     }
+
+    private Monster CreateMonster()
+    {
+        Monster monsterSpawn = Instantiate(monsterPrefab, RandomPosition(),transform.rotation, transform);
+        monsterSpawnQueue.Enqueue(monsterSpawn);
+        monsterSpawn.gameObject.SetActive(false);
+        return monsterSpawn;
+    }
+
     IEnumerator SpawnTime()
     {
         yield return new WaitForSeconds(3f);
-        CreateMonster(10);
+        GetQueue();
     }
+
     public void ReturnQueue(Monster _gameObject)
     {
-        _gameObject.gameObject.SetActive(false);
         monsterSpawnQueue.Enqueue(_gameObject);
-        Invoke("GetQueue", 7f);
+        _gameObject.gameObject.SetActive(false);
+        Invoke("GetQueue", 2f);
     }
 
     public Monster GetQueue()
     {
-        Monster getGameObject = monsterSpawnQueue.Dequeue();
-        gameObject.transform.position = RandomPosition();
-        getGameObject.gameObject.SetActive(true);
-        return getGameObject;
+        if(monsterSpawnQueue.Count > 0)
+        {
+            Monster getGameObject = monsterSpawnQueue.Dequeue();
+            getGameObject.transform.position = RandomPosition();
+            getGameObject.gameObject.SetActive(true);
+            return getGameObject;
+        }
+        else //큐에 남아있는 오브젝트가 없을 때 새로 만들어서 사용
+        {
+            Monster objectInPool = CreateMonster();
+            objectInPool.gameObject.SetActive(true);
+            objectInPool.gameObject.transform.SetParent(null);
+            return objectInPool;
+        }
     }
 
     private Vector3 RandomPosition()
     {
         Vector3 originPosition = transform.position;
+        Vector3 size = rangeCollider.size;
 
-        float spawnX = Random.Range((rangeCollider.bounds.size.x /2)*-1, (rangeCollider.bounds.size.x/2));
-        float spawnZ = Random.Range((rangeCollider.bounds.size.z /2)*-1, (rangeCollider.bounds.size.z/2));
+        float spawnX = originPosition.x + Random.Range(-(size.x/2f), (size.x/2f));
+        float spawnY = originPosition.y + Random.Range(-(size.y/2f), (size.y/2f));
+        float spawnZ = originPosition.z + Random.Range(-(size.z/2f), (size.z/2f));
 
-        Vector3 newPosition = new Vector3(spawnX, 0f, spawnZ);
-        Vector3 respawnPosition = originPosition + newPosition;
+        Vector3 respawnPosition = new Vector3(spawnX, spawnY, spawnZ);
 
         return respawnPosition;
     }
