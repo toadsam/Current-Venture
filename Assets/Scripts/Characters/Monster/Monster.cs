@@ -8,6 +8,8 @@ public class Monster : MonoBehaviour
     public enum MonsterState { IDLE, TRACE, WALK, ATTACK, DIE };
     public MonsterState monsterState = MonsterState.IDLE;
 
+    public string monsterName;
+
     public int maxHP;
     public int curHP;
     public float traceDist;
@@ -15,6 +17,8 @@ public class Monster : MonoBehaviour
     public float speed;
     private Vector3 pos;
     private bool check;
+
+    public GameObject fire;
 
     private Rigidbody rigid;
     private BoxCollider boxCollider;
@@ -62,38 +66,59 @@ public class Monster : MonoBehaviour
     {
         while (curHP > 0)
         {
-            switch (monsterState)
-            {
-                case MonsterState.IDLE:
-                    nvAgent.isStopped = true;
-                    anim.SetBool("isTrace", false);
-                    break;
-                case MonsterState.TRACE:
-                    nvAgent.SetDestination(playerTr.position);
-                    nvAgent.isStopped = false;
-                    //anim.SetBool("isWalk", false);
-                    anim.SetBool("isAttack", false);
-                    anim.SetBool("isTrace", true);     
-                    break;
-                case MonsterState.ATTACK:
-                    nvAgent.isStopped = true; 
-                    anim.SetBool("isAttack", true);
-                    float e_RotSpeed = 6.0f; //초당 회전 속도
-                    Vector3 a_CacDir = playerTr.position - monsterTr.position;
-                    a_CacDir.y = 0.0f;
-                    //a_CacDir의 벡터 길이가 0.0f보다 크면 해당 벡터를 바라보도록 함
-                    if(0.0f < a_CacDir.magnitude)
-                    {
-                        Quaternion a_TargetRot = Quaternion.LookRotation(a_CacDir.normalized);
-                        transform.rotation = Quaternion.Slerp(
-                            transform.rotation, a_TargetRot, Time.deltaTime * e_RotSpeed);
-                    }        
-                    break;
-            }
-            yield return null;     
+            yield return StartCoroutine(monsterState.ToString());    
         }
         if(curHP <= 0){
             MonsterSpawner.instance.ReturnQueue(this);
         }
     }
+
+#region UNITY_EVENTS
+    IEnumerator IDLE()
+    {
+        nvAgent.isStopped = true;
+        anim.SetBool("isTrace", false);
+        anim.SetBool("isAttack", false);
+
+        yield return null;  
+    }
+
+    IEnumerator TRACE()
+    {
+        nvAgent.SetDestination(playerTr.position);
+        nvAgent.isStopped = false;
+        //anim.SetBool("isWalk", false);
+        anim.SetBool("isAttack", false);
+        anim.SetBool("isTrace", true);
+
+        yield return null;  
+    }
+
+    IEnumerator ATTACK()
+    {
+        nvAgent.isStopped = true; 
+        anim.SetBool("isAttack", true);
+        float e_RotSpeed = 6.0f; //초당 회전 속도
+        Vector3 a_CacDir = playerTr.position - monsterTr.position;
+        a_CacDir.y = 0.0f;
+        //a_CacDir의 벡터 길이가 0.0f보다 크면 해당 벡터를 바라보도록 함
+        if(0.0f < a_CacDir.magnitude)
+        {
+            Quaternion a_TargetRot = Quaternion.LookRotation(a_CacDir.normalized);
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation, a_TargetRot, Time.deltaTime * e_RotSpeed);
+        }
+
+        if(monsterName == "Shoot")
+        {
+            Vector3 mouthPos = fire.transform.parent.transform.position;
+            fire.transform.position = mouthPos;
+            fire.SetActive(true);
+            Quaternion a_TargetRot = Quaternion.LookRotation(a_CacDir.normalized);
+            fire.transform.rotation = Quaternion.Slerp(
+                transform.rotation, a_TargetRot, Time.deltaTime * e_RotSpeed);
+        }
+        yield return null;  
+    }
+#endregion
 }
