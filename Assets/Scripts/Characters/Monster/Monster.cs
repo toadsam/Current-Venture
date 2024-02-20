@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Monster : MonoBehaviour
 {
-    public enum MonsterState { IDLE, TRACE, WALK, ATTACK, DIE };
+    public enum MonsterState { IDLE, TRACE, ATTACK, DIE };
     public MonsterState monsterState = MonsterState.IDLE;
 
     public string monsterName;
@@ -16,7 +16,6 @@ public class Monster : MonoBehaviour
     public float attackDist;
     public float speed;
     private Vector3 pos;
-    private bool check;
 
     public GameObject fire;
 
@@ -80,6 +79,32 @@ public class Monster : MonoBehaviour
         anim.SetBool("isTrace", false);
         anim.SetBool("isAttack", false);
 
+        // yield return new WaitForSeconds(10.0f);
+
+        // pos = new Vector3();
+        // pos.x = Random.Range(-3f, 3f);
+        // pos.z = Random.Range(-3f, 3f);
+
+        // anim.SetBool("isWalk", true);
+
+        // while(true)
+        // {
+        //     var dir = (pos - monsterTr.position).normalized;
+        //     monsterTr.LookAt(pos);
+        //     monsterTr.position += dir * speed * Time.deltaTime;
+
+        //     float distance = Vector3.Distance(monsterTr.position, pos);
+        //     if(distance <= 0.1f)
+        //     {
+        //         anim.SetBool("isWalk", false);
+        //         break;
+        //         // yield return new WaitForSeconds(Random.Range(1f, 3f));
+        //         // anim.SetBool("isWalk", true);
+        //         // pos.x = Random.Range(-3f, 3f);
+        //         // pos.z = Random.Range(-3f, 3f);
+        //     }
+        // }
+
         yield return null;  
     }
 
@@ -87,7 +112,7 @@ public class Monster : MonoBehaviour
     {
         nvAgent.SetDestination(playerTr.position);
         nvAgent.isStopped = false;
-        //anim.SetBool("isWalk", false);
+        // anim.SetBool("isWalk", false);
         anim.SetBool("isAttack", false);
         anim.SetBool("isTrace", true);
 
