@@ -27,7 +27,7 @@ public class PlayerGroundedState : PlayerBaseState
 
         if (stateMachine.IsAttacking)
         {
-            //OnAttack(); 일단 지금은 보류
+            OnAttack(); 
             return;
         }
     }
@@ -61,6 +61,11 @@ public class PlayerGroundedState : PlayerBaseState
     protected override void OnJumpStarted(InputAction.CallbackContext context)
     {
         stateMachine.ChangeState(stateMachine.JumpState);
+    }
+
+    protected virtual void OnAttack()
+    {
+        stateMachine.ChangeState(stateMachine.ComboAttackState);
     }
 
 }
