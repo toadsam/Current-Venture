@@ -24,6 +24,12 @@ public class PlayerGroundedState : PlayerBaseState
     public override void Update()
     {
         base.Update();
+
+        if (stateMachine.IsAttacking)
+        {
+            //OnAttack(); 일단 지금은 보류
+            return;
+        }
     }
 
     public override void PhysicsUpdate()
