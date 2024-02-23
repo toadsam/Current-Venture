@@ -431,11 +431,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterState: 0
+  monsterName: Shoot
   maxHP: 100
   curHP: 100
   traceDist: 3
   attackDist: 2
   speed: 0
+  firePrefab: {fileID: 8559106834849476434, guid: 80f5994ccc2bd40ea86ae72179dbc2b8, type: 3}
+  mouthTransform: {fileID: 2095539868}
+  bulletSpawnRateMin: 0.5
+  bulletSpawnRateMax: 3
 --- !u!195 &946895728
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -584,7 +589,10 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: a36c14f602b1644d8b721e4e3a66910f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 409160, guid: 70f277dcf2cdfdd4db7ee0ca76e07767, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2095539869}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 130416, guid: 70f277dcf2cdfdd4db7ee0ca76e07767, type: 3}
       insertIndex: -1
@@ -599,6 +607,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 946895727}
   m_SourcePrefab: {fileID: 100100000, guid: 70f277dcf2cdfdd4db7ee0ca76e07767, type: 3}
+--- !u!4 &1022749462 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 409160, guid: 70f277dcf2cdfdd4db7ee0ca76e07767, type: 3}
+  m_PrefabInstance: {fileID: 996820923}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1219415174
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1075,6 +1088,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterPrefab: {fileID: 2562663842613427251, guid: c64e2897e892c44eaad5c9a75ea880c2, type: 3}
   player: {fileID: 0}
+--- !u!1 &2095539868
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2095539869}
+  m_Layer: 0
+  m_Name: FireBall
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2095539869
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095539868}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1022749462}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2120743663
 PrefabInstance:
   m_ObjectHideFlags: 0
