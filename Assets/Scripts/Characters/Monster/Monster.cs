@@ -17,7 +17,13 @@ public class Monster : MonoBehaviour
     public float speed;
     private Vector3 pos;
 
-    public GameObject fire;
+    //원거리 공격
+    public GameObject firePrefab;
+    public GameObject mouthTransform;
+    public float bulletSpawnRateMin = 0.5f;
+    public float bulletSpawnRateMax = 3f;
+    private float bulletSpawnRate = 1f;
+    private float timeAfterSpawn;
 
     private Rigidbody rigid;
     private BoxCollider boxCollider;
@@ -36,6 +42,9 @@ public class Monster : MonoBehaviour
         playerTr = GameObject.FindWithTag("Player").GetComponent<Transform>();
         nvAgent = GetComponent<NavMeshAgent>();
 
+        timeAfterSpawn = 0f;
+        // bulletSpawnRate = Random.Range(bulletSpawnRateMin, bulletSpawnRateMax);
+
         monsterState = MonsterState.IDLE;
         StartCoroutine(CheckMonsterState());
         StartCoroutine(MonsterAction());
@@ -45,6 +54,8 @@ public class Monster : MonoBehaviour
     {
         nvAgent = GetComponent<NavMeshAgent>();
         curHP = maxHP;
+        timeAfterSpawn = 0f;
+        // bulletSpawnRate = Random.Range(bulletSpawnRateMin, bulletSpawnRateMax);
     }
 
     IEnumerator CheckMonsterState()
@@ -136,12 +147,20 @@ public class Monster : MonoBehaviour
 
         if(monsterName == "Shoot")
         {
-            Vector3 mouthPos = fire.transform.parent.transform.position;
-            fire.transform.position = mouthPos;
-            fire.SetActive(true);
-            Quaternion a_TargetRot = Quaternion.LookRotation(a_CacDir.normalized);
-            fire.transform.rotation = Quaternion.Slerp(
-                transform.rotation, a_TargetRot, Time.deltaTime * e_RotSpeed);
+            // Vector3 mouthPos = fire.transform.parent.transform.position;
+            // fire.transform.position = mouthPos;
+            // fire.SetActive(true);
+            // Quaternion a_TargetRot = Quaternion.LookRotation(a_CacDir.normalized);
+            // fire.transform.rotation = Quaternion.Slerp(
+            //     transform.rotation, a_TargetRot, Time.deltaTime * e_RotSpeed);
+            timeAfterSpawn += Time.deltaTime;
+            if(timeAfterSpawn >= bulletSpawnRate)
+            {
+                timeAfterSpawn = 0;
+                GameObject fireObj = Instantiate(firePrefab, mouthTransform.transform.position, mouthTransform.transform.rotation);
+                fireObj.transform.LookAt(playerTr);
+            }
+
         }
         yield return null;  
     }
