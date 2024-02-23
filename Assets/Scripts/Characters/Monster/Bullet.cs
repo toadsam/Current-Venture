@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, 5f);
     }
 
-    void OnTriggerEnter(Collidor other)
+    void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player")
         {
