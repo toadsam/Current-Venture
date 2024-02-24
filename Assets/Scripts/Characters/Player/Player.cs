@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public PlayerInput Input { get; private set; }
     public CharacterController Controller { get; private set; }
 
+    public int i;
     public ForceReceiver ForceReceiver { get; private set; }
 
 
