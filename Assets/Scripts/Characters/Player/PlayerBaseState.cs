@@ -159,6 +159,16 @@ public class PlayerBaseState : IState
         stateMachine.IsAttacking = false;
     }
 
+    protected virtual void OnInteractionPerformed(InputAction.CallbackContext obj) 
+    {
+        stateMachine.IsInteraction = true;
+    }
+    protected virtual void OnInteractionCanceled(InputAction.CallbackContext obj)
+    {
+        stateMachine.IsInteraction = false;
+    }
+
+
     protected float GetNormalizedTime(Animator animator, string tag)
     {
         AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
