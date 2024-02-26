@@ -115,8 +115,11 @@ public class PlayerBaseState : IState
 
         stateMachine.Player.Input.PlayerActions.Jump.started += OnJumpStarted;
 
-        stateMachine.Player.Input.PlayerActions.Attack.performed += OnAttackPerformed;
-        stateMachine.Player.Input.PlayerActions.Attack.canceled += OnAttackCanceled;
+        stateMachine.Player.Input.PlayerActions.Interaction.performed += OnInteractionPerformed;
+        stateMachine.Player.Input.PlayerActions.Interaction.canceled += OnInteractionPerformed;
+
+        //stateMachine.Player.Input.PlayerActions.Attack.performed += OnAttackPerformed;
+        //stateMachine.Player.Input.PlayerActions.Attack.canceled += OnAttackCanceled;
 
     }
     protected virtual void RemoveInputActionsCallbacks() 
@@ -127,8 +130,11 @@ public class PlayerBaseState : IState
 
         stateMachine.Player.Input.PlayerActions.Jump.started -= OnJumpStarted;
 
-        stateMachine.Player.Input.PlayerActions.Attack.performed -= OnAttackPerformed;
-        stateMachine.Player.Input.PlayerActions.Attack.canceled -= OnAttackCanceled;
+        stateMachine.Player.Input.PlayerActions.Interaction.performed -= OnInteractionPerformed;
+        stateMachine.Player.Input.PlayerActions.Interaction.canceled -= OnInteractionPerformed;
+
+        //stateMachine.Player.Input.PlayerActions.Attack.performed -= OnAttackPerformed;
+        //stateMachine.Player.Input.PlayerActions.Attack.canceled -= OnAttackCanceled;
     }
     protected virtual void OnJumpStarted(InputAction.CallbackContext context)
     {
@@ -158,6 +164,16 @@ public class PlayerBaseState : IState
     {
         stateMachine.IsAttacking = false;
     }
+
+    protected virtual void OnInteractionPerformed(InputAction.CallbackContext obj) 
+    {
+        stateMachine.IsInteraction = true;
+    }
+    protected virtual void OnInteractionCanceled(InputAction.CallbackContext obj)
+    {
+        stateMachine.IsInteraction = false;
+    }
+
 
     protected float GetNormalizedTime(Animator animator, string tag)
     {
