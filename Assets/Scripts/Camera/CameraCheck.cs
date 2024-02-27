@@ -14,12 +14,10 @@ public class CameraCheck : MonoBehaviour
 
         for (int i = 0; i < hits.Length; i++)
         {
-        Transparent[] obj = hits[i].transform.GetComponentsInChildren<Transparent>();
+            Transparent[] obj = hits[i].transform.GetComponentsInChildren<Transparent>();
 
             for (int j = 0; j < obj.Length; j++)
-            {
                 obj[j]?.BecomeTransparent();
-            }
         }
     }
 }
