@@ -5,6 +5,9 @@ public class PlayerInteraction : MonoBehaviour
 {
     // UI 텍스트 오브젝트
     private Transform interactionText;
+    [SerializeField] private GameObject ObjectCamera;
+    [SerializeField] private GameObject CameraUI;
+    private Transform cameraPosition;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,6 +17,7 @@ public class PlayerInteraction : MonoBehaviour
             if (other.transform.childCount > 0)
             {
                 interactionText = other.transform.GetChild(0);
+                cameraPosition = other.transform.GetChild(1);
                 // 가져온 첫 번째 자식에 대한 작업을 수행
             }
             else
@@ -49,5 +53,12 @@ public class PlayerInteraction : MonoBehaviour
     {
         // 상호작용 동작 실행
         Debug.Log("상호작용 시작!");
+        if(cameraPosition != null)
+        {
+            ObjectCamera.transform.position = cameraPosition.position;
+            CameraUI.SetActive(true);
+        }
+        //여기 부분에 위치를 카메라의 위치를 받고 카메라를 옮긴다.
+
     }
 }
