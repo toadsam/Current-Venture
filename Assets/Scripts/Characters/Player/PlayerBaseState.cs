@@ -115,11 +115,11 @@ public class PlayerBaseState : IState
 
         stateMachine.Player.Input.PlayerActions.Jump.started += OnJumpStarted;
 
-        stateMachine.Player.Input.PlayerActions.Interaction.performed += OnInteractionPerformed;
-        stateMachine.Player.Input.PlayerActions.Interaction.canceled += OnInteractionPerformed;
+       //stateMachine.Player.Input.PlayerActions.Interaction.performed += OnInteractionPerformed;
+        //stateMachine.Player.Input.PlayerActions.Interaction.canceled += OnInteractionPerformed;
 
-        //stateMachine.Player.Input.PlayerActions.Attack.performed += OnAttackPerformed;
-        //stateMachine.Player.Input.PlayerActions.Attack.canceled += OnAttackCanceled;
+        stateMachine.Player.Input.PlayerActions.Attack.performed += OnAttackPerformed;
+        stateMachine.Player.Input.PlayerActions.Attack.canceled += OnAttackCanceled;
 
     }
     protected virtual void RemoveInputActionsCallbacks() 
@@ -130,11 +130,11 @@ public class PlayerBaseState : IState
 
         stateMachine.Player.Input.PlayerActions.Jump.started -= OnJumpStarted;
 
-        stateMachine.Player.Input.PlayerActions.Interaction.performed -= OnInteractionPerformed;
-        stateMachine.Player.Input.PlayerActions.Interaction.canceled -= OnInteractionPerformed;
+        //stateMachine.Player.Input.PlayerActions.Interaction.performed -= OnInteractionPerformed;
+        //stateMachine.Player.Input.PlayerActions.Interaction.canceled -= OnInteractionPerformed;
 
-        //stateMachine.Player.Input.PlayerActions.Attack.performed -= OnAttackPerformed;
-        //stateMachine.Player.Input.PlayerActions.Attack.canceled -= OnAttackCanceled;
+        stateMachine.Player.Input.PlayerActions.Attack.performed -= OnAttackPerformed;
+        stateMachine.Player.Input.PlayerActions.Attack.canceled -= OnAttackCanceled;
     }
     protected virtual void OnJumpStarted(InputAction.CallbackContext context)
     {
@@ -179,17 +179,24 @@ public class PlayerBaseState : IState
     {
         AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
         AnimatorStateInfo nextInfo = animator.GetNextAnimatorStateInfo(0);
-
-        if (animator.IsInTransition(0) && nextInfo.IsTag(tag))
+       // Debug.Log(animator.IsInTransition(0));
+      // Debug.Log(currentInfo.normalizedTime);
+      // Debug.Log(nextInfo.IsTag(tag));
+       //Debug.Log(nextInfo.tag);
+        if (animator.IsInTransition(0) )//&& nextInfo.IsName(tag)
         {
+            Debug.Log("여기는?");
             return nextInfo.normalizedTime;
+           
         }
-        else if (!animator.IsInTransition(0) && currentInfo.IsTag(tag))
+        else if (!animator.IsInTransition(0) )//&& currentInfo.IsName(tag)
         {
+            Debug.Log("여기는?");
             return currentInfo.normalizedTime;
         }
         else
         {
+            Debug.Log("여기서만 나오는 중");
             return 0f;
         }
     }

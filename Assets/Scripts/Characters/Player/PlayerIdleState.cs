@@ -23,6 +23,8 @@ public class PlayerIdleState : PlayerGroundedState
 
     public override void Update()
     {
+       // float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "I1");
+       // Debug.Log(normalizedTime);
         base.Update();
         if (stateMachine.MovementInput != Vector2.zero)
         {

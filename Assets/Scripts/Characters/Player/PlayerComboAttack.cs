@@ -63,6 +63,7 @@ public class PlayerComboAttackState : PlayerAttackState
         ForceMove();
 
         float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Attack");
+       // Debug.Log(normalizedTime);
         if (normalizedTime < 1f)
         {
             if (normalizedTime >= attackInfoData.ForceTransitionTime)
