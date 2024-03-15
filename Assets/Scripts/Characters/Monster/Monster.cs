@@ -90,6 +90,36 @@ public class Monster : MonoBehaviour
         anim.SetBool("isTrace", false);
         anim.SetBool("isAttack", false);
 
+        while(monsterState == MonsterState.IDLE)
+        {
+            yield return new WaitForSeconds(0.4f); // 0.4초마다 플레이어와의 거리 체크
+
+            float dist = Vector3.Distance(playerTr.position, monsterTr.position);
+            if(dist < 1) 
+            {
+                monsterState = MonsterState.TRACE; // 거리가 5보다 작으면 TRACE 상태로 변경
+                break; // 루프 종료
+            }
+            else
+            {
+                anim.SetBool("isWalk", true);
+                // 거리가 5 이상이면 임의의 위치로 이동
+                Vector3 randomDirection = Random.insideUnitSphere * 5; // 5 유닛 내에서 무작위 방향 결정
+                randomDirection += monsterTr.position; // 현재 위치에 더함
+                NavMeshHit hit;
+                NavMesh.SamplePosition(randomDirection, out hit, 5, 1); // NavMesh 상의 유효한 위치 찾기
+                Vector3 finalPosition = hit.position; // 최종 목적지 결정
+                nvAgent.SetDestination(finalPosition); // 목적지로 이동 설정
+                nvAgent.isStopped = false; // 이동 시작
+                float randomWaitTime = Random.Range(1f, 3f); // 1초에서 3초 사이의 랜덤한 대기 시간
+                yield return new WaitForSeconds(randomWaitTime); // 랜덤한 시간만큼 대기
+                //nvAgent.isStopped = true; // 이동 멈춤
+            }
+        }
+        // nvAgent.isStopped = true;
+        // anim.SetBool("isTrace", false);
+        // anim.SetBool("isAttack", false);
+
         // yield return new WaitForSeconds(10.0f);
 
         // pos = new Vector3();

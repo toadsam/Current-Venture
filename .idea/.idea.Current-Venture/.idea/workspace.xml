@@ -6,13 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="66f60fc8-5e53-465f-83cc-cc7ffc5fce04" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Current-Venture/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Current-Venture/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Standing Melee Attack Backhand.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Standing Melee Attack Backhand.fbx.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Standing Melee Attack Downward.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Standing Melee Attack Downward.fbx.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Sword And Shield Attack.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Sword And Shield Attack.fbx.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/JJH_Player.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/JJH_Player.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Player/PlayerBaseState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Player/PlayerBaseState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Player/PlayerComboAttack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Player/PlayerComboAttack.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Player/PlayerIdleState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Player/PlayerIdleState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Characters/Monster/Monster.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Characters/Monster/Monster.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,6 +98,7 @@
       <workItem from="1709540212049" duration="5000" />
       <workItem from="1710052647099" duration="3349000" />
       <workItem from="1710073915248" duration="1463000" />
+      <workItem from="1710486153103" duration="1787000" />
     </task>
     <servers />
   </component>
